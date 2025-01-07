@@ -1,35 +1,134 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+// import logo from './logo.svg';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentGame, setCurrentGame] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [playerScore, setPlayerScore] = useState(0);
+  const [maxQuestions, setMaxQuestions] = useState(10);
+  const [currentGamePlaying, setCurrentGamePlaying] = useState(0);
+
+  const getGameData = async () => {
+    let res = await fetch(
+      "https://raw.githubusercontent.com/aaronnech/Who-Wants-to-Be-a-Millionaire/master/questions.json"
+    );
+    let data = await res.json();
+    await setCurrentGame(data.games[0]?.questions);
+  };
+
+  useEffect(() => {
+    getGameData();
+  }, [currentGamePlaying]);
+
+  const updateScore = (answer_index, el) => {
+    if (currentQuestion > maxQuestions) return; //change this to display end game scene
+    if (answer_index === currentGame[currentQuestion].correct) {
+      setPlayerScore((current_score) => current_score + 1000);
+      el.target.classList.add("correct");
+    } else {
+      el.target.classList.add("wrong");
+    }
+    setTimeout(() => {
+      setCurrentQuestion((current_question) => current_question + 1);
+      el.target.classList.remove("correct");
+      el.target.classList.remove("wrong");
+    }, 1000);
+    console.log(playerScore);
+  };
+
+  const endGameScreen = () =>
+    playerScore >= 8000 ? (
+      <>
+        <div className="container text-center p-2 text-white mt-auto header-bg">
+          <h2 className="text-2xl pb-1 border-b border-gray-500">
+            Bank: ${playerScore}
+          </h2>
+          <h4 className="text-lg">Get $8000 to advanced to next round.</h4>
+        </div>
+        <div className="mb-auto p-6 header-bg">
+          <h2 className="font-bold text-lg">You Advanced To Next Round</h2>
+          <p>
+            You can keep playing to stand to win the cash price of $20 000.
+            Answer the next 5 questions.
+          </p>
+          <p>What will you do?</p>
+          <div className="flex p-3 text-white">
+            <div className="py-2 px-5 cursor-pointer btn-primary rounded-xl mr-3">
+              Cash Out
+            </div>
+            <div className="py-2 px-5 cursor-pointer bg-green-500 rounded-xl">
+              Keep playing
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <div className="my-auto p-6 header-bg">
+        <h2 className="font-bold text-lg">You Did Not Advance</h2>
+        <p>
+          It seems like you are lacking in general knowledge... Your welcome to
+          play again
+        </p>
+        <div className="flex p-3 text-white">
+          <div
+            className="py-2 px-5 cursor-pointer bg-green-500 rounded-xl mr-3"
+            onClick={() => setCurrentGamePlaying((current) => current + 1)}
+          >
+            Play Again
+          </div>
+        </div>
+      </div>
+    );
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container h-screen items flex flex-col">
+      <div className="text-center py-4 header-bg shadow-md text-lg font-semibold text-white">
+        <h2>Who Wants To Be A Millionaire</h2>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      {currentQuestion !== 10 ? (
+        <>
+          <div
+            id="game-container"
+            className="items-center justify-center my-auto"
+          >
+            {/* <img src={logo} className=" w-1/3 mx-auto mb-4 " /> */}
+            <div className="text-xl text-center btn-primary">
+              {currentQuestion + 1}/10 Questions
+            </div>
+            <div className="p-3 text-2xl text-center">
+              {currentGame[currentQuestion]?.question}
+            </div>
+            <div id="answers-container" className="p-3">
+              {currentGame[currentQuestion]?.content.map((answer, index) => (
+                <div
+                  key={index}
+                  className="container btn-container items-center flex border border-gray-700 mb-2 rounded-3xl cursor-pointer"
+                  onClick={(el) => {
+                    updateScore(index, el);
+                  }}
+                >
+                  <div className="py-2 px-4 bg-gray-700 text-white font-bold text-lg rounded-3xl m-1 shadow-md btn-primary">
+                    {index + 1}
+                  </div>
+                  <div className="py-2 px-4 text-gray-700 font-semibold">
+                    {answer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="container text-center header-bg p-2 text-white mt-auto">
+            <h2 className="text-2xl pb-1 border-b border-gray-500">
+              Bank: ${playerScore}
+            </h2>
+            <h4 className="text-lg">Get $8000 to advanced to next round.</h4>
+          </div>
+        </>
+      ) : (
+        endGameScreen()
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
