@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import logo from './logo.svg';
 
 function App() {
   const [currentGame, setCurrentGame] = useState([]);
@@ -43,11 +42,13 @@ function App() {
           <h2 className="text-2xl pb-1 border-b border-gray-500">
             Bank: ${playerScore}
           </h2>
-          <h4 className="text-lg">Get $8000 to advanced to next round.</h4>
+          <h4 className="text-lg text-blue-600">
+            Get $8000 to advanced to next round.
+          </h4>
         </div>
         <div className="mb-auto p-6 header-bg">
           <h2 className="font-bold text-lg">You Advanced To Next Round</h2>
-          <p>
+          <p className="text-blue-500">
             You can keep playing to stand to win the cash price of $20 000.
             Answer the next 5 questions.
           </p>
@@ -64,7 +65,7 @@ function App() {
       </>
     ) : (
       <div className="my-auto p-6 header-bg">
-        <h2 className="font-bold text-lg">You Did Not Advance</h2>
+        <h2 className="font-bold text-lg text-blue-600">You Did Not Advance</h2>
         <p>
           It seems like you are lacking in general knowledge... Your welcome to
           play again
@@ -82,7 +83,7 @@ function App() {
 
   return (
     <div className="container h-screen items flex flex-col">
-      <div className="text-center py-4 header-bg shadow-md text-lg font-semibold text-white">
+      <div className="text-center py-4 header-bg shadow-md text-lg font-semibold text-indigo-500">
         <h2>Who Wants To Be A Millionaire</h2>
       </div>
       {currentQuestion !== 10 ? (
@@ -91,7 +92,6 @@ function App() {
             id="game-container"
             className="items-center justify-center my-auto"
           >
-            {/* <img src={logo} className=" w-1/3 mx-auto mb-4 " /> */}
             <div className="text-xl text-center btn-primary">
               {currentQuestion + 1}/10 Questions
             </div>
@@ -118,7 +118,7 @@ function App() {
             </div>
           </div>
           <div className="container text-center header-bg p-2 text-white mt-auto">
-            <h2 className="text-2xl pb-1 border-b border-gray-500">
+            <h2 className="text-2xl pb-1 border-b border-gray-500 text-blue-600">
               Bank: ${playerScore}
             </h2>
             <h4 className="text-lg">Get $8000 to advanced to next round.</h4>
