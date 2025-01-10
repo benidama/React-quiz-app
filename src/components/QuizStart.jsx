@@ -105,19 +105,22 @@ function QuizStart() {
             <div className="p-3 text-2xl text-center">
               {currentGame[currentQuestion]?.question}
             </div>
-            <div id="answers-container" className="p-3">
+            <div
+              id="answers-container"
+              className="p-3 flex justify-center items-center flex-col"
+            >
               {currentGame[currentQuestion]?.content.map((answer, index) => (
                 <div
                   key={index}
-                  className="container btn-container items-center flex border border-gray-700 mb-2 rounded-3xl cursor-pointer"
+                  className="container btn-container w-[630px] items-center flex border border-gray-700 mb-2 rounded-3xl cursor-pointer bg-indigo-950"
                   onClick={(el) => {
                     updateScore(index, el);
                   }}
                 >
-                  <div className="py-2 px-4 bg-gray-700 text-white font-bold text-lg rounded-3xl m-1 shadow-md btn-primary">
+                  <div className="py-2 px-4 bg-gray-300 text-black font-bold text-lg rounded-3xl m-1 shadow-md btn-primary">
                     {index + 1}
                   </div>
-                  <div className="py-2 px-4 text-gray-700 font-semibold">
+                  <div className="py-2 px-4 text-white font-semibold">
                     {answer}
                   </div>
                 </div>
@@ -128,9 +131,6 @@ function QuizStart() {
             <h2 className="text-2xl pb-1 border-b border-gray-500 text-blue-600">
               Results: {playerScore}/10
             </h2>
-            <h4 className="text-lg">
-              Get $8000 when you win this job as your salary.
-            </h4>
           </div>
         </>
       ) : (
