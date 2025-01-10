@@ -1,8 +1,10 @@
-# React + Vite
+# React Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## I used Figma, HTML, Tailwind css, JS and React
 
-Currently, two official plugins are available:
+API source code https://raw.githubusercontent.com/aaronnech/Who-Wants-to-Be-a-Millionaire/master/questions.json
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This will help the users to answer different questions for job
+and to get results immediately with waiting the result long time.
+
+The figma design link is https://www.figma.com/design/ccmjROVo1Mv5q7z06Nvno2/Untitled?node-id=0-1&t=CyVhVB9oUrUVVZcS-1
